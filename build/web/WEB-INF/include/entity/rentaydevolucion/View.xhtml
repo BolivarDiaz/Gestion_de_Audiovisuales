@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RentaydevolucionViewDlg" widgetVar="RentaydevolucionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewRentaydevolucionTitle}" closeOnEscape="true">
+
+            <h:form id="RentaydevolucionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{rentaydevolucionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_noprestamo}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.noprestamo}" title="#{myBundle.ViewRentaydevolucionTitle_noprestamo}"/>
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_fechaprestamo}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.fechaprestamo}" title="#{myBundle.ViewRentaydevolucionTitle_fechaprestamo}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_fechadevolucion}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.fechadevolucion}" title="#{myBundle.ViewRentaydevolucionTitle_fechadevolucion}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_comentario}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.comentario}" title="#{myBundle.ViewRentaydevolucionTitle_comentario}"/>
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_estado}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.estado}" title="#{myBundle.ViewRentaydevolucionTitle_estado}"/>
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_idempleado}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.idempleado.id}"/>
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_idequipo}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.idequipo.descripccion}"/>
+
+                        <h:outputText value="#{myBundle.ViewRentaydevolucionLabel_idusuario}"/>
+                        <h:outputText value="#{rentaydevolucionController.selected.idusuario.id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('RentaydevolucionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

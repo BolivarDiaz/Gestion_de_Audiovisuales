@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EquiposEditDlg" widgetVar="EquiposEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditEquiposTitle}" closeOnEscape="true">
+
+            <h:form id="EquiposEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{equiposController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditEquiposLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{equiposController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_descripccion}" for="descripccion" />
+                        <p:inputText id="descripccion" value="#{equiposController.selected.descripccion}" title="#{myBundle.EditEquiposTitle_descripccion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_noserial}" for="noserial" />
+                        <p:inputText id="noserial" value="#{equiposController.selected.noserial}" title="#{myBundle.EditEquiposTitle_noserial}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_servicetag}" for="servicetag" />
+                        <p:inputText id="servicetag" value="#{equiposController.selected.servicetag}" title="#{myBundle.EditEquiposTitle_servicetag}" required="true" requiredMessage="#{myBundle.EditEquiposRequiredMessage_servicetag}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{equiposController.selected.estado}" title="#{myBundle.EditEquiposTitle_estado}" required="true" requiredMessage="#{myBundle.EditEquiposRequiredMessage_estado}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_idmarcas}" for="idmarcas" />
+                        <p:selectOneMenu id="idmarcas" value="#{equiposController.selected.idmarcas}" required="true" requiredMessage="#{myBundle.EditEquiposRequiredMessage_idmarcas}" converter="marcasConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcasController.items}"
+                                           var="idmarcasItem"
+                                           itemValue="#{idmarcasItem}"
+                                           itemLabel="#{idmarcasItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_idmodelo}" for="idmodelo" />
+                        <p:selectOneMenu id="idmodelo" value="#{equiposController.selected.idmodelo}" required="true" requiredMessage="#{myBundle.EditEquiposRequiredMessage_idmodelo}" converter="modelosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{modelosController.items}"
+                                           var="idmodeloItem"
+                                           itemValue="#{idmodeloItem}"
+                                           itemLabel="#{idmodeloItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_idtipotconeccion}" for="idtipotconeccion" />
+                        <p:selectOneMenu id="idtipotconeccion" value="#{equiposController.selected.idtipotconeccion}"  converter="tecnologiaconeccionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tecnologiaconeccionController.items}"
+                                           var="idtipotconeccionItem"
+                                           itemValue="#{idtipotconeccionItem}"
+                                           itemLabel="#{idtipotconeccionItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditEquiposLabel_idtipoequipos}" for="idtipoequipos" />
+                        <p:selectOneMenu id="idtipoequipos" value="#{equiposController.selected.idtipoequipos}" required="true" requiredMessage="#{myBundle.EditEquiposRequiredMessage_idtipoequipos}" converter="tipoequiposConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoequiposController.items}"
+                                           var="idtipoequiposItem"
+                                           itemValue="#{idtipoequiposItem}"
+                                           itemLabel="#{idtipoequiposItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{equiposController.save}" value="#{myBundle.Save}" update="display,:EquiposListForm:datalist,:EquiposListForm:EquiposDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EquiposEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('EquiposEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

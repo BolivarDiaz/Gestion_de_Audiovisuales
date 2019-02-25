@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TecnologiaconeccionViewDlg" widgetVar="TecnologiaconeccionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTecnologiaconeccionTitle}" closeOnEscape="true">
+
+            <h:form id="TecnologiaconeccionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tecnologiaconeccionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTecnologiaconeccionLabel_id}"/>
+                        <h:outputText value="#{tecnologiaconeccionController.selected.id}" title="#{myBundle.ViewTecnologiaconeccionTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewTecnologiaconeccionLabel_descripcion}"/>
+                        <h:outputText value="#{tecnologiaconeccionController.selected.descripcion}" title="#{myBundle.ViewTecnologiaconeccionTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewTecnologiaconeccionLabel_estado}"/>
+                        <h:outputText value="#{tecnologiaconeccionController.selected.estado}" title="#{myBundle.ViewTecnologiaconeccionTitle_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TecnologiaconeccionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

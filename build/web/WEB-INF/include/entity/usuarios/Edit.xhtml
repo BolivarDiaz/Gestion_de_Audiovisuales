@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuariosEditDlg" widgetVar="UsuariosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditUsuariosTitle}" closeOnEscape="true">
+
+            <h:form id="UsuariosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuariosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditUsuariosLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{usuariosController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{usuariosController.selected.nombre}" title="#{myBundle.EditUsuariosTitle_nombre}" required="true" requiredMessage="#{myBundle.EditUsuariosRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_cedula}" for="cedula" />
+                        <p:inputText id="cedula" value="#{usuariosController.selected.cedula}" title="#{myBundle.EditUsuariosTitle_cedula}" required="true" requiredMessage="#{myBundle.EditUsuariosRequiredMessage_cedula}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_nocarnet}" for="nocarnet" />
+                        <p:inputText id="nocarnet" value="#{usuariosController.selected.nocarnet}" title="#{myBundle.EditUsuariosTitle_nocarnet}" required="true" requiredMessage="#{myBundle.EditUsuariosRequiredMessage_nocarnet}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_tipousuario}" for="tipousuario" />
+                        <p:inputText id="tipousuario" value="#{usuariosController.selected.tipousuario}" title="#{myBundle.EditUsuariosTitle_tipousuario}" required="true" requiredMessage="#{myBundle.EditUsuariosRequiredMessage_tipousuario}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_tipopersona}" for="tipopersona" />
+                        <p:inputText id="tipopersona" value="#{usuariosController.selected.tipopersona}" title="#{myBundle.EditUsuariosTitle_tipopersona}" required="true" requiredMessage="#{myBundle.EditUsuariosRequiredMessage_tipopersona}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuariosLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{usuariosController.selected.estado}" title="#{myBundle.EditUsuariosTitle_estado}" required="true" requiredMessage="#{myBundle.EditUsuariosRequiredMessage_estado}" size="50" maxlength="50"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuariosController.save}" value="#{myBundle.Save}" update="display,:UsuariosListForm:datalist,:UsuariosListForm:UsuariosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuariosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsuariosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

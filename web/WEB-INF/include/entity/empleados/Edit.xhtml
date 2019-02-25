@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EmpleadosEditDlg" widgetVar="EmpleadosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditEmpleadosTitle}" closeOnEscape="true">
+
+            <h:form id="EmpleadosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{empleadosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditEmpleadosLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{empleadosController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditEmpleadosLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{empleadosController.selected.nombre}" title="#{myBundle.EditEmpleadosTitle_nombre}" required="true" requiredMessage="#{myBundle.EditEmpleadosRequiredMessage_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmpleadosLabel_cedula}" for="cedula" />
+                        <p:inputText id="cedula" value="#{empleadosController.selected.cedula}" title="#{myBundle.EditEmpleadosTitle_cedula}" required="true" requiredMessage="#{myBundle.EditEmpleadosRequiredMessage_cedula}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmpleadosLabel_tandalabor}" for="tandalabor" />
+                        <p:inputText id="tandalabor" value="#{empleadosController.selected.tandalabor}" title="#{myBundle.EditEmpleadosTitle_tandalabor}" required="true" requiredMessage="#{myBundle.EditEmpleadosRequiredMessage_tandalabor}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmpleadosLabel_fechaingreso}" for="fechaingreso" />
+                        <p:calendar id="fechaingreso" pattern="MM/dd/yyyy" value="#{empleadosController.selected.fechaingreso}" title="#{myBundle.EditEmpleadosTitle_fechaingreso}" required="true" requiredMessage="#{myBundle.EditEmpleadosRequiredMessage_fechaingreso}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmpleadosLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{empleadosController.selected.estado}" title="#{myBundle.EditEmpleadosTitle_estado}" required="true" requiredMessage="#{myBundle.EditEmpleadosRequiredMessage_estado}" size="50" maxlength="50"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{empleadosController.save}" value="#{myBundle.Save}" update="display,:EmpleadosListForm:datalist,:EmpleadosListForm:EmpleadosDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmpleadosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('EmpleadosEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

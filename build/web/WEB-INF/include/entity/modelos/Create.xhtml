@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ModelosCreateDlg" widgetVar="ModelosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateModelosTitle}" closeOnEscape="true">
+
+            <h:form id="ModelosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{modelosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateModelosLabel_id}" for="id" style="color:#000000"/>
+                        <p:inputText id="id" value="#{modelosController.selected.id}" title="#{myBundle.CreateModelosTitle_id}" required="true" requiredMessage="#{myBundle.CreateModelosRequiredMessage_id}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateModelosLabel_descripcion}" for="descripcion" style="color:#000000"/>
+                        <p:inputText id="descripcion" value="#{modelosController.selected.descripcion}" title="#{myBundle.CreateModelosTitle_descripcion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateModelosLabel_estado}" for="estado" style="color:#000000"/>
+                        <p:selectOneMenu id="estado" value="#{modelosController.selected.estado}" title="#{myBundle.CreateModelosTitle_estado}" style="width:120px" maxlength="50">
+                             <f:selectItem itemLabel="Activo" itemValue="Activo" />
+            <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{myBundle.CreateModelosLabel_idmarcas}" for="idmarcas" style="color:#000000"/>
+                        <p:selectOneMenu id="idmarcas" value="#{modelosController.selected.idmarcas}" required="true" requiredMessage="#{myBundle.CreateModelosRequiredMessage_idmarcas}" converter="marcasConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marcasController.items}"
+                                           var="idmarcasItem"
+                                           itemValue="#{idmarcasItem}"
+                                           itemLabel="#{idmarcasItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{modelosController.saveNew}" value="#{myBundle.Save}" update="display,:ModelosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ModelosCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ModelosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

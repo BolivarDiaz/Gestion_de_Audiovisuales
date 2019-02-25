@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RentaydevolucionListForm">
+
+        <p:panel header="#{myBundle.ListRentaydevolucionTitle}">
+            <p:contextMenu id="RentaydevolucionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('RentaydevolucionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('RentaydevolucionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('RentaydevolucionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('RentaydevolucionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.RentaydevolucionMenuItem_idempleado}" icon="ui-icon-search"  actionListener="#{rentaydevolucionController.prepareIdempleado}" update=":EmpleadosViewForm" oncomplete="PF('EmpleadosViewDialog').show()" disabled="#{empty rentaydevolucionController.selected.idempleado}"/>  
+                <p:menuitem value="#{myBundle.RentaydevolucionMenuItem_idequipo}" icon="ui-icon-search"  actionListener="#{rentaydevolucionController.prepareIdequipo}" update=":EquiposViewForm" oncomplete="PF('EquiposViewDialog').show()" disabled="#{empty rentaydevolucionController.selected.idequipo}"/>  
+                <p:menuitem value="#{myBundle.RentaydevolucionMenuItem_idusuario}" icon="ui-icon-search"  actionListener="#{rentaydevolucionController.prepareIdusuario}" update=":UsuariosViewForm" oncomplete="PF('UsuariosViewDialog').show()" disabled="#{empty rentaydevolucionController.selected.idusuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{rentaydevolucionController.items}"
+                         lazy="false"
+                         rowKey="#{item.noprestamo}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{rentaydevolucionController.selected}"
+                         filteredValue="#{rentaydevolucionController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{rentaydevolucionController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.noprestamo}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RentaydevolucionDataTableContextMenu" listener="#{rentaydevolucionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RentaydevolucionDataTableContextMenu" listener="#{rentaydevolucionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{rentaydevolucionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('RentaydevolucionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.noprestamo}" filterBy="#{item.noprestamo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRentaydevolucionTitle_noprestamo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.noprestamo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaprestamo}" filterBy="#{item.fechaprestamo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRentaydevolucionTitle_fechaprestamo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaprestamo}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechadevolucion}" filterBy="#{item.fechadevolucion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRentaydevolucionTitle_fechadevolucion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechadevolucion}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.comentario}" filterBy="#{item.comentario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRentaydevolucionTitle_comentario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.comentario}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRentaydevolucionTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idempleado.id}" filterBy="#{item.idempleado.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListRentaydevolucionTitle_idempleado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idempleado.id}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idequipo.descripccion}" filterBy="#{item.idequipo.descripccion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListRentaydevolucionTitle_idequipo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idequipo.descripccion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idusuario.id}" filterBy="#{item.idusuario.id}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListRentaydevolucionTitle_idusuario}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idusuario.id}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{rentaydevolucionController.prepareCreate}" update=":RentaydevolucionCreateForm" oncomplete="PF('RentaydevolucionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":RentaydevolucionViewForm" oncomplete="PF('RentaydevolucionViewDialog').show()" disabled="#{empty rentaydevolucionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":RentaydevolucionEditForm" oncomplete="PF('RentaydevolucionEditDialog').show()" disabled="#{empty rentaydevolucionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{rentaydevolucionController.delete}" update=":growl,datalist" disabled="#{empty rentaydevolucionController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

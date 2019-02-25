@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EquiposListForm">
+
+        <p:panel header="#{myBundle.ListEquiposTitle}">
+            <p:contextMenu id="EquiposDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('EquiposListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('EquiposListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('EquiposListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('EquiposListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.EquiposMenuItem_idmarcas}" icon="ui-icon-search"  actionListener="#{equiposController.prepareIdmarcas}" update=":MarcasViewForm" oncomplete="PF('MarcasViewDialog').show()" disabled="#{empty equiposController.selected.idmarcas}"/>  
+                <p:menuitem value="#{myBundle.EquiposMenuItem_idmodelo}" icon="ui-icon-search"  actionListener="#{equiposController.prepareIdmodelo}" update=":ModelosViewForm" oncomplete="PF('ModelosViewDialog').show()" disabled="#{empty equiposController.selected.idmodelo}"/>  
+                <p:menuitem value="#{myBundle.EquiposMenuItem_idtipotconeccion}" icon="ui-icon-search"  actionListener="#{equiposController.prepareIdtipotconeccion}" update=":TecnologiaconeccionViewForm" oncomplete="PF('TecnologiaconeccionViewDialog').show()" disabled="#{empty equiposController.selected.idtipotconeccion}"/>  
+                <p:menuitem value="#{myBundle.EquiposMenuItem_idtipoequipos}" icon="ui-icon-search"  actionListener="#{equiposController.prepareIdtipoequipos}" update=":TipoequiposViewForm" oncomplete="PF('TipoequiposViewDialog').show()" disabled="#{empty equiposController.selected.idtipoequipos}"/>  
+                <p:menuitem value="#{myBundle.EquiposMenuItem_rentaydevolucionCollection}" icon="ui-icon-search"  action="#{equiposController.navigateRentaydevolucionCollection}" disabled="#{equiposController.isRentaydevolucionCollectionEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{equiposController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{equiposController.selected}"
+                         filteredValue="#{equiposController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{equiposController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EquiposDataTableContextMenu" listener="#{equiposController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EquiposDataTableContextMenu" listener="#{equiposController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{equiposController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EquiposListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEquiposTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.descripccion}" filterBy="#{item.descripccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEquiposTitle_descripccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.descripccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.noserial}" filterBy="#{item.noserial}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEquiposTitle_noserial}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.noserial}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.servicetag}" filterBy="#{item.servicetag}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEquiposTitle_servicetag}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.servicetag}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEquiposTitle_estado}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.estado}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idmarcas.descripcion}" filterBy="#{item.idmarcas.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEquiposTitle_idmarcas}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idmarcas.descripcion}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.idmodelo.descripcion}" filterBy="#{item.idmodelo.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListEquiposTitle_idmodelo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idmodelo.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idtipotconeccion.descripcion}" filterBy="#{item.idtipotconeccion.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListEquiposTitle_idtipotconeccion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idtipotconeccion.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.idtipoequipos.descripcion}" filterBy="#{item.idtipoequipos.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListEquiposTitle_idtipoequipos}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idtipoequipos.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{equiposController.prepareCreate}" update=":EquiposCreateForm" oncomplete="PF('EquiposCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":EquiposViewForm" oncomplete="PF('EquiposViewDialog').show()" disabled="#{empty equiposController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":EquiposEditForm" oncomplete="PF('EquiposEditDialog').show()" disabled="#{empty equiposController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{equiposController.delete}" update=":growl,datalist" disabled="#{empty equiposController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>
